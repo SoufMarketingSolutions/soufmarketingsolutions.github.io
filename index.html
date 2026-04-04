@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Souf Marketing Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #080808;
+      --deep: #0f0f0f;
+      --card: #141414;
+      --border: #1e1e1e;
+      --accent: #6b2d2d;
+      --accent-light: #8b3a3a;
+      --accent-glow: rgba(107, 45, 45, 0.15);
+      --accent-glow-strong: rgba(107, 45, 45, 0.3);
+      --white: #f5f2ee;
+      --gray: #888;
+      --gray-light: #aaa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse, var(--accent-glow-strong) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .logo-wrap {
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.2s;
+    }
+
+    .logo-wrap img {
+      width: min(380px, 80vw);
+      filter: drop-shadow(0 0 40px rgba(107,45,45,0.4));
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: var(--gray-light);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.5s;
+    }
+
+    .tagline span {
+      color: var(--accent-light);
+    }
+
+    .owner-name {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.7s;
+      margin-bottom: 48px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.9s;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-light);
+      box-shadow: 0 0 30px var(--accent-glow-strong);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-light);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      color: var(--white);
+    }
+
+    .section-body {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--gray-light);
+      max-width: 600px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      max-width: 1100px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 60px;
+    }
+
+    .service-card {
+      background: var(--card);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card:hover {
+      background: #161616;
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+
+    .service-desc {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--gray);
+    }
+
+    /* ── CASE STUDY ── */
+    #results {
+      max-width: 1100px;
+    }
+
+    .result-block {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .result-left {
+      background: var(--accent);
+      padding: 60px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .result-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,242,238,0.6);
+      margin-bottom: 16px;
+    }
+
+    .result-client {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .result-desc {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(245,242,238,0.75);
+    }
+
+    .result-right {
+      background: var(--card);
+      padding: 60px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .stat {
+      border-left: 2px solid var(--accent);
+      padding-left: 24px;
+    }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .about-box::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      right: -12px;
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--accent);
+      z-index: -1;
+    }
+
+    .about-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .about-attr {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      max-width: 1100px;
+      text-align: center;
+    }
+
+    #contact .section-label {
+      justify-content: center;
+    }
+
+    #contact .section-label::after { display: none; }
+
+    #contact .section-body {
+      margin: 0 auto 48px;
+    }
+
+    .contact-card {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 60px 80px;
+      position: relative;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-item-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .contact-item-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-item-value:hover {
+      color: var(--accent-light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--accent-light);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(8,8,8,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(4px);
+    }
+
+    .nav-brand {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .result-block {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-card {
+        padding: 40px 32px;
+        width: 100%;
+      }
+
+      .about-box::after { display: none; }
+
+      section { padding: 70px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="#">Souf Marketing</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="logo-wrap">
+      <img src="souf-marketing-logo.png" alt="Souf Marketing Solutions" />
+    </div>
+    <p class="tagline">"Your Vision, <span>Our Creative Strategy</span>"</p>
+    <p class="owner-name">Soufiane Laamime &nbsp;·&nbsp; Washington, DC / DMV</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Start a Conversation</a>
+      <a href="#services" class="btn btn-ghost">Our Services</a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="reveal">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Digital marketing that<br>moves the needle</h2>
+      <p class="section-body">We help growing businesses build visibility, attract clients, and compete — with strategy-first marketing built around your goals.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-icon">◎</span>
+        <div class="service-name">Local SEO & Google Business</div>
+        <p class="service-desc">Get found by the right people in your market. We set up, optimize, and manage your Google presence so clients find you first.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">◈</span>
+        <div class="service-name">Social Media Management</div>
+        <p class="service-desc">Consistent, on-brand content that builds authority and keeps your audience engaged across platforms.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">◇</span>
+        <div class="service-name">Brand Strategy & Digital Cleanup</div>
+        <p class="service-desc">Rebrand or refresh? We audit your entire online footprint, unify your presence, and make sure your brand lands correctly everywhere.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">◉</span>
+        <div class="service-name">Content & LinkedIn Strategy</div>
+        <p class="service-desc">B2B thought leadership, ghostwriting, and content calendars that position you and your business as the authority in your space.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">◫</span>
+        <div class="service-name">Email Marketing</div>
+        <p class="service-desc">Nurture your leads and retain your clients with targeted email campaigns built around your business's story and results.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">◬</span>
+        <div class="service-name">Landing Pages & Web Presence</div>
+        <p class="service-desc">Clean, conversion-focused pages that communicate your value clearly and turn visitors into inquiries.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="reveal">
+      <div class="section-label">Case Study</div>
+      <h2 class="section-title">Real results for<br>real businesses</h2>
+    </div>
+    <div class="result-block reveal">
+      <div class="result-left">
+        <div class="result-eyebrow">Featured Client</div>
+        <div class="result-client">BETA Academy<br>— DMV</div>
+        <p class="result-desc">A premier combat sports academy in the Washington DC area. We built and managed their full digital marketing operation — social media, Google Business, event promotion, and brand photography — through a complete post-pandemic recovery and growth phase.</p>
+      </div>
+      <div class="result-right">
+        <div class="stat">
+          <div class="stat-number">640</div>
+          <div class="stat-label">Active students at peak — up from 500 pre-pandemic</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">+28%</div>
+          <div class="stat-label">Student growth above pre-pandemic baseline</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">Full</div>
+          <div class="stat-label">Marketing operation — social, GBP, events, photography</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-box">
+        <p class="about-quote">"We don't just run campaigns. We become part of your operation — the way marketing should work."</p>
+        <div class="about-attr">Soufiane Laamime — Founder</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">Built in the DMV.<br>Built for growth.</h2>
+      <p class="section-body">Souf Marketing Solutions was founded by Soufiane Laamime — a Washington DC-based marketer, photographer, and entrepreneur with deep roots in the DMV business community. With hands-on experience running full marketing operations for local businesses from the inside, we bring a founder's perspective to every client engagement. No fluff. No vanity metrics. Just strategy and execution that grows your business.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Let's build something</h2>
+      <p class="section-body">Ready to grow your business or just want to talk through what's possible? Reach out directly — no forms, no funnels.</p>
+    </div>
+    <div class="reveal">
+      <div class="contact-card">
+        <div class="contact-item">
+          <span class="contact-item-label">Website</span>
+          <a href="https://www.soufmarketing.com" class="contact-item-value">www.soufmarketing.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-label">Location</span>
+          <span class="contact-item-value">Washington, DC / DMV Area</span>
+        </div>
+        <a href="mailto:hello@soufmarketing.com" class="btn btn-primary">Send a Message</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Souf Marketing Solutions</span>
+      <span class="footer-tagline">"Your Vision, Our Creative Strategy"</span>
+      <span class="footer-copy">Soufiane Laamime</span>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
